@@ -100,7 +100,7 @@
                 link.addEventListener("click", function (event) {
                     const target = this.getAttribute("id");
                     if (
-                        target === "./login.html" &&
+                        target === "./Login.html" &&
                         localStorage.getItem("loggedInUserName")
                     )
                         return;
@@ -118,7 +118,7 @@
                 });
             });
 
-            const loginLink = document.getElementById("./login.html");
+            const loginLink = document.getElementById("./Login.html");
             const name = localStorage.getItem("loggedInUserName");
             const firstName = name && name.trim() ? name.trim().split(" ")[0] : null;
             
