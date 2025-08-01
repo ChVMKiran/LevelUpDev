@@ -201,7 +201,8 @@
                     const target = this.getAttribute("id");
                     if (
                         target === "./login.html" &&
-                        localStorage.getItem("loggedInUserName")
+                        localStorage.getItem("loggedInUserName") ||
+                        target === 'logout'
                     )
                         return;
                     else document.querySelector("iframe").src = target;
