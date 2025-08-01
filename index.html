@@ -341,19 +341,21 @@
             });
 
             window.addEventListener("DOMContentLoaded", function () {
-                if (localStorage.getItem("loggedInUserName")) {
-                    document
-                        .getElementsByClassName("login")[0]
-                        .classList.add("hide");
-                    document
-                        .getElementById("./Profile.html")
-                        .classList.remove("hide");
-                    document
-                        .getElementById("./favourites.html")
-                        .classList.remove("hide");
+                const username = localStorage.getItem("loggedInUserName");
+                const isLoggedIn = username && username.trim().length > 0;
+            
+                if (isLoggedIn) {
+                    document.getElementsByClassName("login")[0].classList.add("hide");
+                    document.getElementById("./Profile.html").classList.remove("hide");
+                    document.getElementById("./favourites.html").classList.remove("hide");
                     document.getElementById("logout").classList.remove("hide");
+                } else {
+                    document.getElementById("./Profile.html").classList.add("hide");
+                    document.getElementById("./favourites.html").classList.add("hide");
+                    document.getElementById("logout").classList.add("hide");
                 }
             });
+
         </script>
     </body>
 </html>
