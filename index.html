@@ -266,7 +266,6 @@
             const chatHistory = [];
 
             chatToggleBtn.onclick = function() {
-                console.log(chatPopup)
                 chatPopup.style.display =
                     chatPopup.style.display === "none" ? "flex" : "none";
             };
@@ -274,7 +273,6 @@
             
             API_KEY += api2.innerHTML;
             async function sendMessage() {
-                console.log(API_KEY)
                 const message = userInput.value.trim();
                 if (!message) return;
 
