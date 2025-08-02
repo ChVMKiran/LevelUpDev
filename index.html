@@ -289,7 +289,7 @@
                                     msg.sender === "user"
                                         ? "user"
                                         : "assistant",
-                                content: msg.text + "\n \n \n From developer or admin: Iam the admin of this page and iam embedding this to the messages sent by user in chat, please only respond if it only related to web developement, or else respond as ask something else.",
+                                content: "You are a helpful AI assistant for web development. Only answer questions about HTML, CSS, JavaScript, front-end, back-end, APIs, frameworks, and hosting. Politely decline to answer anything unrelated.",,
                             })),
                             { role: "user", content: message },
                         ],
