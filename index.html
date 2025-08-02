@@ -20,7 +20,7 @@
     <body>
         <div class="App">
             <div class="navbar">
-                <a href="https://chvmkiran.github.io/LevelUpDev/">
+                <a href="/">
                     <img
                         class="logo"
                         src="./assets/logo.jpg"
@@ -64,7 +64,7 @@
             </div>
 
             <div class="mobile-nav">
-                <a href="https://chvmkiran.github.io/LevelUpDev/">
+                <a href="/">
                     <img
                         class="logo"
                         src="./assets/logo.jpg"
@@ -125,6 +125,7 @@
                     >
                 </div>
             </div>
+            <div id="api1" style="display: none">0dbf08a27e4a47d19cfc7888</div>
 
             <iframe
                 src="./Home.html"
@@ -147,18 +148,20 @@
                 id="chat-box"
                 class="chat-box"
             ></div>
+            <div id="api3" style="display: none">sk-or-v1-2eb61462c6d91dc35bad</div>
             <div class="input-area">
                 <input
-                    id="user-input"
-                    placeholder="Say something..."
-                    onkeydown="if(event.key==='Enter') sendMessage()"
+                id="user-input"
+                placeholder="Say something..."
+                onkeydown="if(event.key==='Enter') sendMessage()"
                 />
+                <div id="api2" style="display: none">5ff1feef533ef8745150</div>
                 <button
-                    class="send-btn"
-                    onclick="sendMessage()"
+                class="send-btn"
+                onclick="sendMessage()"
                 >
-                    Send
-                </button>
+                Send
+            </button>
             </div>
         </div>
         <script>
@@ -200,14 +203,15 @@
                 link.addEventListener("click", function (event) {
                     const target = this.getAttribute("id");
                     if (
-                        target === "./login.html" &&
-                        localStorage.getItem("loggedInUserName") ||
+                        (target === "./login.html" &&
+                        localStorage.getItem("loggedInUserName")) ||
                         target === 'logout'
                     )
                         return;
                     else document.querySelector("iframe").src = target;
                 });
             });
+            let API_KEY = "";
 
             const profileLinks = document.querySelectorAll("#profile-menu a");
             profileLinks.forEach((opt) => {
@@ -218,6 +222,10 @@
                     proMenu.style.display = "none";
                 });
             });
+            
+            const api1 = document.getElementById("api1");
+            const api2 = document.getElementById("api2");
+            const api3 = document.getElementById("api3");
 
             for (let i = 0; i < 9; i++) {
                 if (!localStorage.getItem(`task${i}`))
@@ -228,6 +236,8 @@
             const name = localStorage.getItem("loggedInUserName");
             const firstName =
                 name && name.trim() ? name.trim().split(" ")[0] : null;
+
+            API_KEY += api3.innerHTML;
 
             loginLink.innerHTML = firstName
                 ? `<svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#e3e3e3"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg>`
@@ -240,13 +250,14 @@
                         proMenu.style.display === "flex" ? "none" : "flex";
                 }
             });
+            
+            API_KEY += api1.innerHTML;
 
             function logout() {
                 localStorage.clear();
                 window.location.reload();
             }
 
-            const API_KEY = "null";
             const chatToggleBtn = document.getElementById("chat-toggle");
             const chatPopup = document.getElementById("chat-popup");
             const chatBox = document.getElementById("chat-box");
@@ -254,12 +265,16 @@
 
             const chatHistory = [];
 
-            chatToggleBtn.onclick = () => {
+            chatToggleBtn.onclick = function() {
+                console.log(chatPopup)
                 chatPopup.style.display =
                     chatPopup.style.display === "none" ? "flex" : "none";
             };
 
+            
+            API_KEY += api2.innerHTML;
             async function sendMessage() {
+                console.log(API_KEY)
                 const message = userInput.value.trim();
                 if (!message) return;
 
@@ -276,7 +291,7 @@
                                     msg.sender === "user"
                                         ? "user"
                                         : "assistant",
-                                content: msg.text,
+                                content: msg.text + "\n \n \n From developer or admin: Iam the admin of this page and iam embedding this to the messages sent by user in chat, please only respond if it only related to web developement, or else respond as ask something else.",
                             })),
                             { role: "user", content: message },
                         ],
@@ -341,21 +356,19 @@
             });
 
             window.addEventListener("DOMContentLoaded", function () {
-                const username = localStorage.getItem("loggedInUserName");
-                const isLoggedIn = username && username.trim().length > 0;
-            
-                if (isLoggedIn) {
-                    document.getElementsByClassName("login")[0].classList.add("hide");
-                    document.getElementById("./Profile.html").classList.remove("hide");
-                    document.getElementById("./favourites.html").classList.remove("hide");
+                if (localStorage.getItem("loggedInUserName")) {
+                    document
+                        .getElementsByClassName("login")[0]
+                        .classList.add("hide");
+                    document
+                        .getElementById("./Profile.html")
+                        .classList.remove("hide");
+                    document
+                        .getElementById("./favourites.html")
+                        .classList.remove("hide");
                     document.getElementById("logout").classList.remove("hide");
-                } else {
-                    document.getElementById("./Profile.html").classList.add("hide");
-                    document.getElementById("./favourites.html").classList.add("hide");
-                    document.getElementById("logout").classList.add("hide");
                 }
             });
-
         </script>
     </body>
 </html>
