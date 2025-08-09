@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Time</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #04153F;
+            color: white;
+        }
+        
+        .container {
+            display: flex;
+            height: 100svh;
+            flex-direction: row;
+        }
+        
+        .left,
+        .right {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .left-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .left-tab-button {
+            color: white;
+            font-weight: bold;
+            padding: 8px 16px;
+            background-color: #1E006E;
+            border: 1px solid #00FFE1;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .left-tab-button.active {
+            background-image: linear-gradient(145deg, #00FFF7, #6E00FF);
+            color: #04153F;
+        }
+        
+        .tab-content {
+            background: #121E3A;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            color: #D1D5DB;
+            line-height: 1.6;
+            height: calc(100svh - 110px);
+            overflow-y: auto;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .right h3 {
+            color: white;
+        }
+        
+        .sec {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .button {
+            color: white;
+            font-weight: bold;
+            width: 110px;
+            height: 31px;
+            border: 1px solid gray;
+            background: #1E006E;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .button img {
+            height: 18px;
+            width: 18px;
+        }
+        
+        .button:hover {
+            background-image: linear-gradient(145deg, #00FFF7, #6E00FF);
+            border: 0;
+        }
+        
+        .curr {
+            border: 2px solid #00FFE1;
+            background: #1E006E;
+            color: #00FFE1;
+        }
+        
+        .hide {
+            display: none;
+        }
+        
+        .cp {
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        
+        .copy {
+            border: 1px solid gray;
+            width: 80px;
+            background-color: #1E006E;
+            color: white;
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy:hover {
+            background: linear-gradient(145deg, #00FFF7, #6E00FF);
+            color: white;
+            border: none;
+        }
+        
+        textarea {
+            width: 95%;
+            height: 65vh;
+            padding: 10px;
+            resize: none;
+            border: 1px solid rgb(192, 188, 188);
+            background-color: hsl(224, 82%, 12%);
+            color: white;
+            font-size: 1rem;
+            font-family: monospace;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        #mark-as-completed {
+            background-color: #04153F;
+            border: 1px solid #00FF7F;
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: #00FF7F;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #mark-as-completed:hover {
+            background-color: #00FF7F;
+            color: #1E006E;
+        }
+        .cp {
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        .rp {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        
+        .run {
+            color: white;
+            font-weight: bold;
+            width: 140px;
+            height: 35px;
+            background: #1E006E;
+            border-radius: 8px;
+            border: 1px solid #00FFE1;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .run:hover {
+            background: linear-gradient(145deg, #00FFF7, #6E00FF);
+            color: #04153F;
+        }
+        
+        .mark {
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 8px;
+        }        
+        .mark label {
+            color: rgb(4, 255, 4);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .mark input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #00e791;
+        }
+        
+        #heart{
+            width: fit-content;
+            height: 30px;
+            background-color: #121E3A;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            font-size: 20px;
+        }
+        #heart:hover {
+            color: red;
+        }
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media(max-width:768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+            .left,
+            .right {
+                width: 100%;
+                height: auto;
+            }
+            .tab-content {
+                height: fit-content;
+            }
+            textarea {
+                height: 50vh;
+            }
+            .mark-container {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="left-tabs">
+                <button class="left-tab-button active" onclick="showTab('description', this)">Description</button>
+                <button class="left-tab-button" onclick="showTab('editorial', this)">Editorial</button>
+            </div>
+
+            <div id="description" class="tab-content active">
+                <div class="heading"><h2>Dynamic Digital Clock</h2>
+                <i id="heart" class="fas fa-heart white-heart"></i></div>
+                <p>
+                    <strong>Description:</strong><br/> Your challenge is to build a beautiful, real-time digital clock from scratch. This project will test your core skills in HTML for structure, CSS for styling, and JavaScript for functionality. The
+                    clock should accurately display the current time and update every second without needing to refresh the page, providing a seamless user experience.
+                </p>
+                <h4>Live Demo Preview</h4>
+                <center>
+                    <video autoplay loop muted playsinline width="80%" style="border-radius: 10px; max-width: 400px;">
+                        <source src="./media/digitalClockNew.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </center>
+                <p><strong>Functional Requirements:</strong></p>
+                <ul>
+                    <li>The clock must display the current hours, minutes, and seconds.</li>
+                    <li>The time must update automatically every second.</li>
+                    <li>Use JavaScript's Date() object to fetch the current time.</li>
+                    <li>Pad single-digit numbers with a leading zero (e.g., display 07 instead of 7).</li>
+                    <li>Display an AM/PM indicator that updates correctly based on the time of day.</li>
+                </ul>
+                <p><strong>Styling Suggestions:</strong></p>
+                <ul>
+                    <li>Center the clock on the page.</li>
+                    <li>Use a clear, digital-style font.</li>
+                    <li>Ensure the clock is responsive and looks good on different screen sizes.</li>
+                </ul>
+            </div>
+
+            <div id="editorial" class="tab-content">
+                <div class="sec">
+                    <button class="html button curr" onclick="showEditorialCode('html-code-2', this)">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML Logo">HTML
+                    </button>
+                    <button class="css button" onclick="showEditorialCode('css-code-2', this)">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS Logo">CSS
+                    </button>
+                    <button class="js button" onclick="showEditorialCode('js-code-2', this)">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS Logo">JS
+                    </button>
+                    <div class="cp"><button class="copy" onclick="copyCode(this)"><i class="fa-solid fa-copy"></i> Copy</button></div>
+                </div>
+                <textarea id="html-code-2" disabled>
+&lt;div class="clock-container"&gt;
+    &lt;div id="time-display"&gt;&lt;/div&gt;
+    &lt;div id="date-display"&gt;&lt;/div&gt;
+&lt;/div&gt;
+                </textarea>
+                <textarea id="css-code-2" class="hide" disabled>
+body {
+    /* Defines the blue gradient background */
+    background: linear-gradient(45deg, #0077ff, #00c6ff);
+    height: 100vh;
+    
+    /* Uses Flexbox to perfectly center the clock */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto Mono', monospace;
+    margin: 0;
+}
+
+.clock-container {
+    background-color: #1f2937; /* Dark charcoal color */
+    color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#time-display {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+#date-display {
+    font-size: 1.1rem;
+    opacity: 0.8; /* Makes the date slightly less prominent */
+    margin-top: 5px;
+}
+                </textarea>
+                <textarea id="js-code-2" class="hide" disabled>
+// Get references to the HTML elements where we will show the time and date
+const timeElement = document.getElementById('time-display');
+const dateElement = document.getElementById('date-display');
+
+/**
+ * The main function that updates the clock display.
+ */
+function updateClock() {
+    const now = new Date(); // 1. Get the current date and time
+
+    // --- Format the Time ---
+    // Get hours, minutes, and seconds, and ensure they are always two digits
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    // --- Format the Date ---
+    // Create arrays to convert number values to names
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    const day = dayNames[now.getDay()];
+    const date = now.getDate();
+    const month = monthNames[now.getMonth()];
+    const year = now.getFullYear();
+
+    // 2. Create the final time and date strings
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    const dateString = `${day}, ${month} ${date}, ${year}`;
+    
+    // 3. Update the HTML content
+    timeElement.textContent = timeString;
+    dateElement.textContent = dateString;
+}
+
+// Run the clock immediately on page load, then update it every second (1000 milliseconds)
+updateClock(); // Initial call to display the clock without a 1-second delay
+setInterval(updateClock, 1000); // Set a timer to run the updateClock function every second
+                </textarea>
+            </div>
+        </div>
+
+        <div class="right">
+            <h3>Code Editor</h3>
+            <div class="sec">
+                <button class="html button curr" onclick="showEditorCode('html-code', this)">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML Logo">HTML
+                </button>
+                <button class="css button" onclick="showEditorCode('css-code', this)">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS Logo">CSS
+                </button>
+                <button class="js button" onclick="showEditorCode('js-code', this)">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS Logo">JS
+                </button>
+            </div>
+            <textarea id="html-code" placeholder="Write HTML here..."></textarea>
+            <textarea id="css-code" class="hide" placeholder="Write CSS here..."></textarea>
+            <textarea id="js-code" class="hide" placeholder="Write JS here..."></textarea>
+             <div class="rp">
+                <button onclick="runInNewPage()" class="run">Run</button>
+                <div class="mark-container">
+                    <button id="mark-as-completed">Mark as Completed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let classes = new Array(9);
+        let fav_btn = document.querySelector("#heart");
+        classes[0] = "fav-task1";
+        classes[1] = "fav-task2";
+        classes[2] = "fav-task3";
+        classes[3] = "fav-task4";
+        classes[4] = "fav-task5";
+        classes[5] = "fav-task6";
+        classes[6] = "fav-task7";
+        classes[7] = "fav-task8";
+        classes[8] = "fav-task9";
+        fav_btn.addEventListener('click', () => {
+            if(localStorage.getItem(classes[localStorage.getItem("task_page")]) >= 0) {
+                localStorage.setItem(classes[localStorage.getItem("task_page")], -1);
+                document.getElementById("heart").style.color = "white";
+            }
+            else {
+                localStorage.setItem(classes[localStorage.getItem("task_page")], localStorage.getItem("task_page"));
+                document.getElementById("heart").style.color = "red";
+            }
+        });
+        if(localStorage.getItem(classes[localStorage.getItem("task_page")]) >= 0) {
+            document.getElementById("heart").style.color = "red";
+        }
+        else {
+            document.getElementById("heart").style.color = "white";
+        }
+        function showTab(tabId, buttonElement) {
+            const contents = document.querySelectorAll('.left .tab-content');
+            const buttons = document.querySelectorAll('.left-tab-button');
+            contents.forEach(c => c.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            buttonElement.classList.add('active');
+        }
+
+        function showEditorCode(codeId, buttonElement) {
+            const textareas = document.querySelectorAll('.right textarea');
+            textareas.forEach(t => t.classList.add('hide'));
+            document.getElementById(codeId).classList.remove('hide');
+
+            const buttons = buttonElement.parentElement.children;
+            for (let btn of buttons) btn.classList.remove('curr');
+            buttonElement.classList.add('curr');
+        }
+
+        function showEditorialCode(codeId, buttonElement) {
+            const textareas = document.querySelectorAll('#editorial textarea');
+            textareas.forEach(t => t.classList.add('hide'));
+            document.getElementById(codeId).classList.remove('hide');
+
+            const buttons = buttonElement.parentElement.children;
+            for (let i = 0; i < 3; i++) buttons[i].classList.remove('curr');
+            buttonElement.classList.add('curr');
+        }
+
+        function copyCode(buttonElement) {
+            const activeCodeButton = document.querySelector("#editorial .button.curr");
+            const codeType = activeCodeButton.classList[0]; // Gets 'html', 'css', or 'js'
+
+            const textAreaId = `${codeType}-code-2`;
+            const textArea = document.getElementById(textAreaId);
+
+            navigator.clipboard.writeText(textArea.value).then(() => {
+                buttonElement.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                setTimeout(() => {
+                    buttonElement.innerHTML = '<i class="fa-solid fa-copy"></i> Copy';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        function runInNewPage() {
+            const html = document.getElementById("html-code").value;
+            const css = document.getElementById("css-code").value;
+            const js = document.getElementById("js-code").value;
+
+            const userCode = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+                    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+                    <style>${css}</style>
+                </head>
+                <body>
+                    ${html}
+                    <script>${js.replace(/<\/script>/g, "<\\/script>")}<\/script>
+                </body>
+                </html>
+            `;
+
+            const externalWindow = window.open();
+            if (externalWindow) {
+                externalWindow.document.open();
+                externalWindow.document.write(userCode);
+                externalWindow.document.close();
+            } else {
+                alert("Popup blocked! Please allow popups for this site.");
+            }
+        }
+
+        const submitBtn = document.getElementById('mark-as-completed');
+        const isCompleted = localStorage.getItem('task8');
+        if(isCompleted === 'false') submitBtn.innerHTML = 'Mark as Completed';
+        else submitBtn.innerHTML = 'Marked as Completed';
+       document.addEventListener('DOMContentLoaded', function() {
+
+    const submitBtn = document.getElementById('mark-as-completed');
+    
+    if (submitBtn) {
+        const isCompleted = localStorage.getItem('task8');
+        if(isCompleted === 'true') { 
+            submitBtn.innerHTML = 'Marked as Completed';
+        } else {
+            submitBtn.innerHTML = 'Mark as Completed';
+        }
+
+        submitBtn.addEventListener('click', function() {
+            console.log("its working priya"); 
+            
+            if(submitBtn.innerHTML === 'Marked as Completed') return;
+            
+            if(localStorage.getItem('loggedInUserName') === 'none') {
+                window.location.href = '/login.html';
+                return; 
+            }
+            
+            localStorage.setItem('task8', 'true'); 
+            localStorage.setItem('hard-count', (parseInt(localStorage.getItem('hard-count') || 0)) + 1);
+            localStorage.setItem('total-count', (parseInt(localStorage.getItem('total-count') || 0)) + 1);
+            
+            const taskTitle = document.querySelector('#description h2').innerHTML;
+            localStorage.setItem('last-submitted', taskTitle);
+            
+            window.location.reload();
+        });
+    }
+});
+    </script>
+</body>
+
+</html>
